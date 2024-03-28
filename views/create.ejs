@@ -1,0 +1,43 @@
+<!-- create.ejs -->
+<%- include('partials/header.ejs'); -%>
+
+<body class="gradient-background2">
+    <div class="container">
+        <h1 class="text-center my-4">Create a New Joke</h1>
+        <form action="/add" method="post">
+
+            <!--Input for username-->
+
+            <div class="mb-3">
+                <label for="username" class="form-label">User Name</label>
+                <input type="text" class="form-control" id="username" name="username" required>
+            </div>
+
+            <!--Input for Joke-->
+            <div class="mb-3">
+                <label for="joke" class="form-label">Joke Text</label>
+                <textarea class="form-control" id="joke" name="joke" required></textarea>
+            </div>
+
+            <!--Input for pic URL-->
+            <div class="mb-3">
+                <label for="picURL" class="form-label">Picture URL</label>
+                <input type="text" class="form-control" id="picURL" name="picurl" >
+            </div>
+
+            <!--Button to submit-->
+            <button type="submit" class="btn btn-primary">Add Joke</button>
+        </form>
+    </div>
+
+    <div class="container mt-4">
+        <a class="" href="https://giphy.com/search/funny"><p>To find Gify's to add to your jokes follow this link'</p></a>
+    </div>
+    <div class="container mt-4">
+        <a class="" href="https://www.goodhousekeeping.com/life/entertainment/a41779929/corny-jokes/"><p>To find jokes to add, follow this link'</p></a>
+    </div>
+   
+</body>
+
+<%- include('partials/footer.ejs'); -%>
+</html>

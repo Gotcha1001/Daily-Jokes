@@ -1,0 +1,56 @@
+<%- include('partials/header.ejs'); -%>
+
+    <body class="gradient-background2">
+        <div class="container">
+            <h1 class="text-center my-4">Daily Jokes Entry</h1>
+            
+            <!--Button to create a new joke-->
+            <button onclick="redirectToCreatePage()" class="btn btn-primary mb-4">Create Joke</button>
+            
+            <!--DISPLAY from database-->
+            <div class="row">
+
+                <% jokes.forEach(joke=> { %>
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+
+                            <iframe src="<%= joke.picurl %>" frameborder="0"></iframe>
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <%= joke.username %> Posted
+                                </h5>
+                                <p class="card-text">Joke: <%= joke.joke %>
+                                </p>
+
+                                <!--Button to modify the joke-->
+                                <form action="/modify/<%= joke.id %>" method="get">
+                                    <button onclick="redirectToModifyPage('<%= joke.id %>')" type="button"
+                                        class="btn btn-primary">Modify</button>
+                                </form>
+
+                                <!--Form for Deleting the joke-->
+                                <form action="/delete" method="post">
+                                    <input type="hidden" name="deleteItemId" value="<%= joke.id %>">
+                                    <button style="margin-top: 10px;" type="submit"
+                                        class="btn btn-danger">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <% }) %>
+            </div>
+        </div>
+
+        <script>
+
+            function redirectToModifyPage(id) {
+                window.location.href = '/modify/' + encodeURIComponent(id);
+            }
+
+            function redirectToCreatePage() {
+                window.location.href = '/create';
+            }
+        </script>
+    </body>
+    <%- include('partials/footer.ejs'); -%>
+        </html>

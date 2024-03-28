@@ -1,0 +1,70 @@
+
+<%- include('partials/header.ejs'); -%>
+
+<style>
+    .gradient-background2 {
+    background: linear-gradient(300deg, #f3f2f5, #26054d, #010003);
+    background-size: 180% 180%;
+    animation: gradient-animation 12s ease infinite;
+  
+   /*background-size: cover; */
+    
+    background-attachment: fixed; /* Keep background fixed when scrolling */
+    
+  }
+  
+  
+  @keyframes gradient-animation {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  footer {
+    flex: 0 0 auto;
+    color: white;
+    text-align: center;
+  }
+</style>
+
+
+<body class="gradient-background2">
+    <div class="container">
+        <h1 class="text-center my-4">Modify the Existing Joke</h1>
+
+        <!--When updating you need the route used to update with the ejs tags to get the id and post-->
+        <form action="/modify/<%= joke.id %>" method="post">
+
+            <!--Input for username      WHEN MODIFYING EXISTING DATA WE NEED VALUE ATTRIBUTES TO POPULATE THE FORM-->  
+
+            <div class="mb-3">
+                <label for="username" class="form-label">User Name</label>
+                <input type="text" class="form-control" id="username" name="username" value="<%= joke.username %>" required>
+            </div>
+
+            <!--Input for Joke-->
+            <div class="mb-3">
+                <label for="joke" class="form-label">Joke Text</label>
+                <textarea class="form-control" id="joke" name="joke" required><%= joke.joke %></textarea>
+            </div>
+
+            <!--Input for pic URL-->
+            <div class="mb-3">
+                <label for="picURL" class="form-label">Picture URL</label>
+                <input type="text" class="form-control" id="picURL" name="picurl" value="<%= joke.picurl %>" >
+            </div>
+
+            <!--Button to submit-->
+            <button type="submit" class="btn btn-primary">Save Joke</button>
+        </form>
+    </div>
+</body>
+
+<%- include('partials/footer.ejs'); -%>
+</html>
