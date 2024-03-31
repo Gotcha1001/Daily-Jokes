@@ -1,18 +1,21 @@
 import express from "express";
 import bodyParser from "body-parser";
 import pg from "pg";
+import env from "dotenv";       //import environment variables   to install... npm i dotenv
 
 const app = express();
 const port = 3000;
 
+env.config();    //using environment variables
+
 app.set("view engine", "ejs"); // Set the view engine to EJS
 
 const db = new pg.Client({
-  user: "postgres",
-  host: "localhost",
-  database: "dailyjoke",
-  password: "Axelrose747",
-  port: 5432,
+  user: process.env.PG_USER,
+  host: process.env.PG_HOST,
+  database: process.env.PG_DATABASE,
+  password: process.env.PG_PASSWORD,
+  port: process.env.PG_PORT
 });
 
 db.connect();
@@ -39,6 +42,23 @@ app.get("/", async (req, res) => {
 app.get("/create", (req, res) =>{
   res.render("create.ejs");
 });
+
+
+
+// Form Submission Handler  CREATE A JOKE
+app.post("/add" , async (req, res) => {
+  const {username, joke, picurl} = req.body;
+  try {
+    await db.query("INSERT INTO simple (username, joke, picURL) VALUES ($1, $2, $3)",
+    [username, joke, picurl]);
+    res.redirect("/");
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Error adding joke");
+  }
+});
+
 
 //Route for the Modify page Note when loading existing data the modify.ejs needs the value attribute ejs
 // also the route needs to point here but using ejs to get the id ..<form action="/modify/<%= joke.id %>" method="post">
@@ -68,20 +88,6 @@ app.post("/modify/:id" , async (req, res) => {
     res.status(500).send("Error updating joke");
   }
 })
-
-// Form Submission Handler  CREATE A JOKE
-app.post("/add" , async (req, res) => {
-  const {username, joke, picurl} = req.body;
-  try {
-    await db.query("INSERT INTO simple (username, joke, picURL) VALUES ($1, $2, $3)",
-    [username, joke, picurl]);
-    res.redirect("/");
-
-  } catch (error) {
-    console.log(error);
-    res.status(500).send("Error adding joke");
-  }
-});
 
 //DELETE a joke using the id
 app.post("/delete", async (req, res) => {
